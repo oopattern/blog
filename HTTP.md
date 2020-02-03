@@ -14,6 +14,7 @@ grammar_cjkRuby: true
 **HTTP**
 HTTP (the protocol used by a browser to get web pages from a server)
 翻译：浏览器通过http协议从服务器获取web页面
+![http](png/http.png)
 
 **API**
 API stands for "application program interface".It's just a documented method of interacting with someone else's service.

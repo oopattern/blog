@@ -30,3 +30,4 @@ MySQL [gongyi_donate]> show create table `gy_organization`\G
 # mysql  -hxxx -uyyy -pzzz database -Pport -s -e "select f_name from t_201999_undirectional_act limit 100" > test_name.txt
 ```
 
+
