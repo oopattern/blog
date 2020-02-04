@@ -24,7 +24,13 @@ API stands for "application program interface".It's just a documented method of 
 2、代理和网关的区别？   
 答：代理连接的是多个相同协议的应用程序。http代理服务器既是服务器也是客户端。网关连接的是多个不同协议的应用程序，类似于协议转换器。   
 3、web缓存为什么不能放在浏览器客户端来实现？   
-答： 
+答： 也是有的，浏览器会把常用文档会放在机器的磁盘和内存中，称为私有缓存。共有缓存指缓存代理服务器，一般用于缓存用户群体各种不同的兴趣点。   
+4、HTTP和HTTPS的区别？   
+答：   
+5、HTTP/HTTPS网关和HTTPS/HTTP网关的区别？   
+答：  
+
+
 
 
 **参考**    
