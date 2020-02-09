@@ -38,11 +38,11 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 2、   
 
 **参考**  
-https://github.com/golang/go/wiki/Blogs     
-https://book.douban.com/subject/26337545/   
-https://golang.org/doc/effective_go.html   
-https://github.com/golang/go/wiki/Articles    
-https://github.com/golang/go/wiki/GoTalks   
-https://github.com/avelino/awesome-go   
+  go相关博客列表： https://github.com/golang/go/wiki/Blogs     
+《go编程语言》  ： https://book.douban.com/subject/26337545/   
+官方effective go  ： https://golang.org/doc/effective_go.html   
+go精华文章列表  ： https://github.com/golang/go/wiki/Articles    
+go talk ：                 https://github.com/golang/go/wiki/GoTalks   
+github上的go资源：https://github.com/avelino/awesome-go   
 
 
