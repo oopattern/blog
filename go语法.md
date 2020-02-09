@@ -1,8 +1,6 @@
 ---
 title: 2020-1-14 go语法 
 tags: go, language
-renderNumberedHeading: true
-grammar_cjkRuby: true
 ---
 
 **channel赋值为nil**
@@ -38,3 +36,4 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 **接口的作用**
 1、结构体赋值给接口
 2、
+
