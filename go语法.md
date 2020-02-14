@@ -34,8 +34,7 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 
 
 **接口的作用**   
-1、结构体赋值给接口   
-2、   
+1、结构体赋值给接口      
 
 **参考**  
   go相关博客列表： https://github.com/golang/go/wiki/Blogs     
