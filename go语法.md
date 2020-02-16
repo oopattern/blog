@@ -36,17 +36,17 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 **接口的作用**   
 1、结构体赋值给接口      
 
-**标准库**   
-bufio：    
+# **标准库**   
+## bufio：    
 缓冲I/O库，目的是减少对实现的io.Reader和io.Writer接口的调用次数，如果io接口对应操作的是磁盘，则可以减少操作磁盘的次数。   
-bufio.Writer，用于减少io.Writer接口调用，数据处理模型： producer --> buffer --> io.Writer，用户producer消息到bufio的buffer，当bufio的buffer满才触发一次调用io.Writer，用户实现的io.Writer接口可以是写文件（磁盘），打印终端，TCP数据传输等具体操作，对于实现写磁盘接口，这样可以减少大量零碎的磁盘写操作。  
-bufio.Reader，用于减少io.Reader接口调用，数据处理模型：io.Reader --> buffer --> consumer，用户调用io.Reader将数据存到bufio的buffer中，然后使用者从buffer将数据取出，只要bufio的buffer有数据没取完，就不会触发下一次调用io.Reader的操作。   
-示例：如果从磁盘读取10个字节，每次读取1个字节，会触发10次磁盘读操作，将bufio的buffer设置为4，只会触发磁盘3次读操作。
-bufio.Scanner: 待分析研究。。。   
-bufio.Reader的WriteTo：待分析研究。。。   
-区别：   ReadBytes('\n')、ReadString('\n') 、ReadLine、Scanner?   
-bufio作用：一般配合archive/zip、compress/*、encoding/*、net/http等标准库使用，用于提高数据传输性能。   
-大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762   
++ bufio.Writer，用于减少io.Writer接口调用，数据处理模型： producer --> buffer --> io.Writer，用户producer消息到bufio的buffer，当bufio的buffer满才触发一次调用io.Writer，用户实现的io.Writer接口可以是写文件（磁盘），打印终端，TCP数据传输等具体操作，对于实现写磁盘接口，这样可以减少大量零碎的磁盘写操作。  
++ bufio.Reader，用于减少io.Reader接口调用，数据处理模型：io.Reader --> buffer --> consumer，用户调用io.Reader将数据存到bufio的buffer中，然后使用者从buffer将数据取出，只要bufio的buffer有数据没取完，就不会触发下一次调用io.Reader的操作。   
+示例：如果从磁盘读取10个字节，每次读取1个字节，会触发10次磁盘读操作，将bufio的buffer设置为4，只会触发磁盘3次读操作。   
++ bufio.Scanner: 待分析研究。。。   
++ bufio.Reader的WriteTo：待分析研究。。。   
++ 区别：   ReadBytes('\n')、ReadString('\n') 、ReadLine、Scanner?   
++ bufio作用：一般配合archive/zip、compress/*、encoding/*、net/http等标准库使用，用于提高数据传输性能。   
++ 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762   
 
 **参考**  
   go相关博客列表： https://github.com/golang/go/wiki/Blogs     
