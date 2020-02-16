@@ -3,6 +3,8 @@ title: 2020-1-14 go语法
 tags: go, language
 ---
 
+[TOC]
+
 # **channel**  
 
 + **channel赋值为nil**   
