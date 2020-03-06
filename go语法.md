@@ -3,8 +3,6 @@ title: 2020-1-14 go语法
 tags: go, language
 ---
 
-[TOC]
-
 # **channel**  
 
 + **channel赋值为nil**   
@@ -48,6 +46,11 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 + 区别：   ReadBytes('\n')、ReadString('\n') 、ReadLine、Scanner?   
 + bufio作用：一般配合archive/zip、compress/*、encoding/*、net/http等标准库使用，用于提高数据传输性能。   
 + 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762   
+
+## json：
+struct和json的关系，包括允许struct字段为空或者跳过struct某个字段，就是动态的选择struct的fields
+ + 大牛分析：https://medium.com/random-go-tips/dynamic-json-schemas-part-1-8f7d103ace71
+				      https://eager.io/blog/go-and-json/
 
 **参考**  
   go相关博客列表： https://github.com/golang/go/wiki/Blogs     
