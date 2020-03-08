@@ -48,7 +48,7 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 + 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762   
 
 ## json：
-struct和json的关系，包括允许struct字段为空或者跳过struct某个字段，就是动态的选择struct的fields
+struct和json的关系，组装json时，包括允许struct字段为空或者跳过struct某个字段，就是动态的选择struct的fields，或者通过匿名struct的方式来重新组成新的json
  + 大牛分析：https://medium.com/random-go-tips/dynamic-json-schemas-part-1-8f7d103ace71
 				      https://eager.io/blog/go-and-json/
 
