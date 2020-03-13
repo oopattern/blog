@@ -59,5 +59,6 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
 go精华文章列表  ： https://github.com/golang/go/wiki/Articles    
 go talk ：                 https://github.com/golang/go/wiki/GoTalks   
 github上的go资源：https://github.com/avelino/awesome-go   
+go编程规范 ：		 https://golang.org/ref/spec     
 
 

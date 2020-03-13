@@ -1,9 +1,25 @@
 ---
 title: 2019-12-25 kafka
 tags: kafka, kafka-client
-renderNumberedHeading: true
-grammar_cjkRuby: true
 ---
+
+**kafka调试命令**     
++ 查看topic： ./kafka-topics.sh --describe --zookeeper 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183/kafka  --topic topicname   
++ 创建topic： ./bin/kafka-topics.sh --create --zookeeper 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183/kafka --replication-factor 2 --partitions 5 --topic gyb-consume-trans     
++ 查看consumer-group： sh kafka-consumer-groups.sh --bootstrap-server=10.198.139.90:9092 --describe --group task_gyb_consume_trans   
++ 查看消费者消息状态：./kafka-consumer-groups.sh --describe --group ecard_donate_trans_2_hbase --bootstrap-server 10.242.17.59:9092   
+
+1、如果小于最小同步副本（3个副本2个不同步），生产者不能继续写新消息，分区变成只读的，这样会导致生产者丢消息吧？
+答：异步模式可以让生产者继续写入消息吗？   
+2、最小同步副本参数和生产者的acks参数有什么联系和区别？根据哪个参数决定生产者可靠的发消息并且不丢失？《kafka权威指南》P92     
+答：acks=all和min.insync.replicas(最小同步副本)结合，表示多少个同步副本收到消息才认为消息被生产者成功提交，否则生产者不能发送其他消息。    
+3、消费者长时间处理会导致无法往broker发心跳，导致发生再均衡影响性能？    
+答：消费者如果处理时间很长，消费者不往broker发心跳，会被当作挂掉，然后重新触发再均衡，但是别的消费者接管该分区还是会出现同样的问题，因为是消息处理的时间很长。    
+4、运维：   
+4.1）如何设置每个topic的分区数？   
+答：通过运行kafka-topics.sh脚本加上配置参数进行设置。    
+4.2）zk的web运维工具     
+答：https://blog.csdn.net/zhitom/article/details/80839496      
 
 
 **kafka-client的使用**
@@ -114,6 +130,9 @@ c.Consumer.Offsets.CommitInterval = 1 * time.Second
 // 查看消费者的状态
 # 
 // 查看分区是否平衡
-# 
-
+#    
 ```
+
+**参考**   
+推荐书籍： https://www.zhihu.com/question/56172498       
+官方网站： https://kafka.apache.org/documentation/        
