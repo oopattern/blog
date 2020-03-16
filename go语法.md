@@ -51,6 +51,15 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 struct和json的关系，组装json时，包括允许struct字段为空或者跳过struct某个字段，就是动态的选择struct的fields，或者通过匿名struct的方式来重新组成新的json
  + 大牛分析：https://medium.com/random-go-tips/dynamic-json-schemas-part-1-8f7d103ace71
 				      https://eager.io/blog/go-and-json/
+					  
+## protobuffer/pb:   
+ 常用pb协议的方式：将pb协议的数据写到kafka中，然后kafka消费者读取pb消息，然后再将解析后的数据存储到db和hbase中。   
+ + pb数据的应用场景：由于需要检查修复数据，将pb的数据保存一份到redis队列了，然后由任务统一消费redis队列，生成一个统一的数据文件，如果直接写到文件中，由于分布式进程，文件会比较零散。 修复数据的时候，从文件取出需要数据，组装成pb的格式，重新写回kafka中。       
+ + 方案一： proto.marshal  --> json.Marshal --> Redis List --> Write File --> Read Line -> json.Unmarshal --> proto.marshal --> kafka 。考虑用json格式存储pb数据内容： {"time":"20200101","key":"kafka-key","pb":"proto bin body"}，实际测试的时候发现go的encode/json库无法解析包含pb字段的二进制数据流。   
+ + 方案二： proto.marshal --> Redis List -->  proto.Unmarshl --> jsonpb.Marshal --> Write File --> Read Line --> jsonpb.Unmarshal --> proto.marshal --> kafka。方案二的目的是保证数据文件每行都是可显字符的json串，因为如果数据文件是pb格式，那么文件解析pb不容易按行分隔解析，json串非常方便按行解析，json串也可以恢复回原来的kafka的pb数据，可以重新写回kafka中。   
+ + 结论： jsonpb可以方便的将pb二进制数据转换为json字符串，不能直接用encode/json库将pb转成json串。    
+ + pb协议解析：  https://medium.com/namely-labs/go-protocol-buffers-57b49e28bc4a     
+ 
 
 **参考**  
   go相关博客列表： https://github.com/golang/go/wiki/Blogs     
