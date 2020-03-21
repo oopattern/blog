@@ -37,7 +37,72 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 # **函数**   
 + 大牛分析： https://medium.com/rungo/the-anatomy-of-functions-in-go-de56c050fe11         
 + 闭包分析： https://www.calhoun.io/5-useful-ways-to-use-closures-in-go/     
++ 闭包：闭包和匿名函数的区别？
 
+# **http服务器设计演进**   
+类似C++多个构造函数的实现，go采用更通用的方法，设计灵活的配置参数实现多个构造函数（Functional options）。   
++ **大牛分析** ：https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis     
+								 https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html    	 
++ 问题1： 如果将所有参数列在函数参数中，所有参数变成必填，无法达到可选参数默认值的需求。   
+``` golang
+func NewServer(addr string, clientTimeout time.Duration, maxconns, maxconcurrent int, cert *tls.Cert) (*Server, error)
+```
++ 问题2： 如果变成多个方式的构造函数，看起来会很冗余，调用者也很难挑选合适的使用方式。   
+``` golang
+func NewServer(addr string) (*Server, error)
+func NewTLSServer(addr string, cert *tls.Cert) (*Server, error)
+func NewServerWithTimeout(addr string, timeout time.Duration) (*Server, error)
+```
++ 问题3：如果可选的配置参数是struct，因为对于端口参数默认值，赋值为零值会导致无法正常使用。      
+``` golang
+type Config struct {
+	Timeout time.Duration
+	Cert *tls.Certificate
+}
+func NewServer(addr string, config Config) (*Server, error) 
+```
++ 问题4：如果config的struct参数为指针，传nil的意思是使用默认值参数？传nil和传空strcut的地址有什么区别？nil不应该作为参数传入函数中，否则对使用者造成歧义。并且这种方式有可能会修改config参数的内部？     
+``` golang
+type Config struct {
+	Port int
+}
+func NewServer(addr string, config *Config) (*Server, error)
+srv, _ := NewServer("localhost", nil)
+config := Config{Port:9000}
+srv2, _ := NewServer("localhost", &config)
+config.Port = 9001 // 会发生什么?
+```
++ 优化1： 通过可变参数config，改善构造函数以下几个地方，问题是调用者可能传多个可变的参数：   
+1）避免了强制参数选项。默认构造函数可以不传config可变参数。   
+2）避免nil或者空struct作为构造函数的默认参数，可以明确参数选项config的设置方式。   
+3）避免\*config指针类型访问对象内部参数的实现。避免伪造修改参数本身。   
+``` golang
+func NewServer(addr string, config ...Config) (*Server, error)
+srv, _ := NewServer("localhost") // 默认构造
+srv2, _ := NewServer("localhost", Config{Timeout: 300*time.Second}) // 参数方式构造
+```
++ 优化2： 通过可选配置函数的方式改善优化1存在的问题：每个参数通过函数的方式进行设置。避免调用者用优化1的方式可能传多个config的参数。   
+``` golang
+func NewServer(addr string, options ...func(*Server)) (*Server, error)
+srv, _ := NewServer("localhost") // 默认构造
+timeout := func(s *Server) { s.timeout = 60 * time.Second }
+tls := func(s *Server) { config := loadTLSConfig() srv.listener = tls.NewListener(s.listener, &config) }
+srv2, _ := NewServer("localhost", timeout, tls)
+
+func NewServer(addr string, options ...func(*Server)) (*Server, error) {
+	s := Server(listener:l)
+	for _, option := range options {
+		option(&s)
+	}
+}
+```
++ 结论：通过可选配置函数方式初始化构造函数，提供更友好的API给调用者使用：   
+1）明智的默认值    
+2）灵活可配置    
+3）配置参数可以动态添加    
+4）良好的文档组织    
+5）让调用者安全的使用   
+6）不需要nil或者空struct，避免使用者混淆用法    
 
 # **接口**   
 + 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
