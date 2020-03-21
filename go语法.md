@@ -9,7 +9,7 @@ tags: go, language
 1、channel可以赋值为nil，赋值为nil不能对通道写入数据，如果对nil的通道写数据会core，就像C++对一个指针为空的地址写数据会core类似。   
 2、close一个channel和将channel赋值为nil不同，close后就永远不能再往通道写数据了，只能读。将一个channel赋值为nil，然后重新赋值为其他make(chan interface{})的值，channel可以继续正常读写。   
 3、channel可以用临时变量赋值，有一个全局变量channel，用临时channel变量赋值给全局channel变量，对临时channel变量赋值相当于对全局channel变量赋值。   
-![enter description here](./images/1579052148730.png)   
+![channel](png/go-channel.png)   
 
 + **channel作为函数参数**   
 说明：channel作为函数参数，一般用于其他go协程操作了通道，由本go协程来接收或者写入这个通道触发某些操作。   
@@ -30,10 +30,29 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 # **select**   
 1、select中有异常的case不一定会捕捉到，只要有一个case满足条件就可以继续运行（例如增加默认default的case）。   
 2、如果没有case满足条件，那么某个case可能会永远阻塞下去，例如一个go协程的select中只有一个接收通道的case，但是该通道在其他协程没有发送赋值，导致go协程的select无法触发下一次接收操作，可能导致该go协程永远阻塞。   
-![enter description here](./images/1579056537751.png)   
+![select](png/go-select.png)   
 
 # **CSP Design**   
-     
+
+# **函数**   
++ 大牛分析： https://medium.com/rungo/the-anatomy-of-functions-in-go-de56c050fe11         
++ 闭包分析： https://www.calhoun.io/5-useful-ways-to-use-closures-in-go/     
+
+
+# **接口**   
++ 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
++ 函数作为函数的参数和接口作为函数的参数有什么区别？   
++ 问题描述：为解决减少重复代码，处理文件的方式都大同小异，需要按行读取每一行内容，然后按照一定格式解析每一行的内容，最后将解析后的数据存储到对应的数据对象中。原本的方式是每个业务代码拷贝相同的代理，然后修改处理具体逻辑，但是这样大部分代码都重复了，后来优化为通过函数指针和接口两种方式解决这个问题。
++ 函数作为函数参数：类似C/C++的函数指针，然后通过可变参数v...interface{}作为函数指针的参数，缺点是对象数据通过可变参数传递，具体解析函数需要.(type)方式猜测对象数据的格式，可读性和易用性较差。
++ 定义函数参数   
+![func](png/go-FuncAsArg1.png)      
++ 使用函数参数    
+![func](png/go-FuncAsArg2.png)      
++ 接口作为函数参数：接口定义解析行的方法，接口作为函数的参数，然后业务中数据对象只要实现接口解析行的方法，这样解析后的数据很容易存储到业务对象中，接口参数类似C++的基类指针，然后调用接口的函数会具体调用到子类的继承函数，但是go不要求数据要有基类子类这样的继承关系，只要对象实现了接口，就可以赋值给接口并且使用接口的方法，可读性和易用性较强。  
++ 定义接口    
+ ![interface](png/go-interface1.png)      
++ 数据对象实现接口    
+ ![interface](png/go-interface2.png)      
 
 # **标准库**   
 ## bufio：    
