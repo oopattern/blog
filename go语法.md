@@ -39,10 +39,11 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 + 闭包分析： https://www.calhoun.io/5-useful-ways-to-use-closures-in-go/     
 + 闭包：闭包和匿名函数的区别？
 
-# **http服务器设计演进**   
+# **功能选项设计演进**   
 类似C++多个构造函数的实现，go采用更通用的方法，设计灵活的配置参数实现多个构造函数（Functional options）。   
 + **大牛分析** ：https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis     
-								 https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html    	 
+								 https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html   
+								 https://blog.csdn.net/liyunlong41/article/details/89048382    
 + 问题1： 如果将所有参数列在函数参数中，所有参数变成必填，无法达到可选参数默认值的需求。   
 ``` golang
 func NewServer(addr string, clientTimeout time.Duration, maxconns, maxconcurrent int, cert *tls.Cert) (*Server, error)
