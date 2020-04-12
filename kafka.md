@@ -6,8 +6,8 @@ tags: kafka, kafka-client
 **kafka调试命令**     
 + 查看topic： sh kafka-topics.sh --describe --zookeeper localhost:2181/kafka --topic gyrc-interact        
 + 创建topic： sh kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 2 --partitions 5 --topic gy_proj_comment          
-+ 查看consumer-group： sh kafka-consumer-groups.sh --bootstrap-server=10.198.139.90:9092 --describe --group task_gyb_consume_trans     
-+ 查看消费者消息状态：./kafka-consumer-groups.sh --describe --group ecard_donate_trans_2_hbase --bootstrap-server 10.242.17.59:9092     
++ 查看consumer-group： sh kafka-consumer-groups.sh --bootstrap-server=xx.xx.xx.xx:9092 --describe --group task_gyb_consume_trans     
++ 查看消费者消息状态：./kafka-consumer-groups.sh --describe --group ecard_donate_trans_2_hbase --bootstrap-server xx.xx.xx.xx:9092     
 
 **kafka偏移量offset**      
 + 自动定时提交？    
@@ -28,8 +28,8 @@ tags: kafka, kafka-client
 
 
 **kafka-client的使用**     
-1、调试环境搭建：
-1.1）搭建单机版的kafka集群。   
+1、调试环境搭建：   
+1.1）搭建单机版的kafka集群。    
         修改配置文件：broker.id、logs.dirs、zookeeper.connect（建议带上路径如/kafka_go表示kafka在zk的根目录）		 
 ``` shell
 broker.id=1
@@ -56,12 +56,12 @@ zookeeper.connect=localhost:2181/kafka_go
 // 启动多个broker，搭建kafka集群
 // 注意：每台机器的broker.id不能相同，多个机器ip如何识别在同一个集群中？
 ```
-1.5）运行go客户端测试用例（github.com\!shopify\sarama@v1.24.1\examples），检查连接是否正常、生产者和消费者（单消费者模式）功能是否正常。
+1.5）运行go客户端测试用例（github.com\!shopify\sarama@v1.24.1\examples），检查连接是否正常、生产者和消费者（单消费者模式）功能是否正常。    
 1.5.1）检查broker是否已成功写入消息，多次运行会写消息到topic，发现topic的offset在不断增加（正常）    
 ``` shell
 # ./bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic default_topic
 ```
-![enter description here](./images/1577259176852.png)
+![kafka](png/kafka-cmd0.png)     
 1.5.2）检查当前消费者已读的偏移量     
 ``` shell
 // 查看某个消费者group下已读的偏移量
@@ -70,8 +70,8 @@ zookeeper.connect=localhost:2181/kafka_go
 # bin/kafka-consumer-groups.sh  --list --bootstrap-server localhost:9092
 ```
 1.5.3）直接查看kafka消费者提交偏移量的文件内容      
-官网描述offset：https://kafka.apache.org/documentation/#quickstart
-对于单个消费者(standalone consumer)，kafka没有存储对应的偏移量？    
+官网描述offset：https://kafka.apache.org/documentation/#quickstart         
+对于单个消费者(standalone consumer)，kafka没有存储对应的偏移量？      
 ``` shell
 # ./bin/kafka-dump-log.sh --files /data/xxx/tool/kafka_2.12-2.4.0/data/default_topic-0/00000000000000000000.log
 ```
