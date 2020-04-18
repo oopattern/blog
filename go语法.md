@@ -37,7 +37,8 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 # **函数**   
 + 大牛分析： https://medium.com/rungo/the-anatomy-of-functions-in-go-de56c050fe11         
 + 闭包分析： https://www.calhoun.io/5-useful-ways-to-use-closures-in-go/     
-+ 闭包：闭包和匿名函数的区别？
++ 闭包：闭包和匿名函数的区别？   
++ **函数作为接口的实现者？**       
 
 # **功能选项设计演进**   
 类似C++多个构造函数的实现，go采用更通用的方法，设计灵活的配置参数实现多个构造函数（Functional options）。   
@@ -107,7 +108,7 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 
 # **接口**   
 + 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
-+ 函数作为函数的参数和接口作为函数的参数有什么区别？   
++ **1、函数作为函数的参数和接口作为函数的参数有什么区别？**   
 + 问题描述：为解决减少重复代码，处理文件的方式都大同小异，需要按行读取每一行内容，然后按照一定格式解析每一行的内容，最后将解析后的数据存储到对应的数据对象中。原本的方式是每个业务代码拷贝相同的代理，然后修改处理具体逻辑，但是这样大部分代码都重复了，后来优化为通过函数指针和接口两种方式解决这个问题。
 	+ 1.1 函数作为函数参数：类似C/C++的函数指针，然后通过可变参数v...interface{}作为函数指针的参数，缺点是对象数据通过可变参数传递，具体解析函数需要.(type)方式猜测对象数据的格式，可读性和易用性较差。   
 		+ 1.1.1 定义函数参数   
@@ -119,6 +120,10 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 		![interface](png/go-interface1.png)      
 		+ 1.2.2 数据对象实现接口    
 		![interface](png/go-interface2.png)      
++ **2、接口作为函数返回值**          
++ 问题描述：       
++ 解决方式：       
++ 参考sarama客户端NewConsumerGroupFromClient的实现       
 
 # **标准库**   
 ## bufio：    
@@ -130,9 +135,12 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 + bufio.Reader的WriteTo：待分析研究。。。   
 + 区别：   ReadBytes('\n')、ReadString('\n') 、ReadLine、Scanner?   
 + bufio作用：一般配合archive/zip、compress/*、encoding/*、net/http等标准库使用，用于提高数据传输性能。   
-+ 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762   
++ 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762      
 
-## json：
+## sync：   
++ 大牛分析：https://medium.com/@teivah/a-closer-look-at-go-sync-package-9f4e4a28c35a          
+
+## json： 
 struct和json的关系，组装json时，包括允许struct字段为空或者跳过struct某个字段，就是动态的选择struct的fields，或者通过匿名struct的方式来重新组成新的json
  + 大牛分析：https://medium.com/random-go-tips/dynamic-json-schemas-part-1-8f7d103ace71
 				      https://eager.io/blog/go-and-json/

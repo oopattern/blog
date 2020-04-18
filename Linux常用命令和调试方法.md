@@ -1,8 +1,6 @@
 ---
 title: 2019-12-24 Linux常用命令和调试方法
-tags: Linux
-renderNumberedHeading: true
-grammar_cjkRuby: true
+tags: Linux    
 ---
 
 
@@ -15,4 +13,5 @@ export设置当前shell的环境变量，然后通过env查看该环境变量的
 ```
 2、某个用户有效：
 3、所有用户有效：
+
 
