@@ -38,6 +38,7 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 + 大牛分析： https://medium.com/rungo/the-anatomy-of-functions-in-go-de56c050fe11         
 + 闭包分析： https://www.calhoun.io/5-useful-ways-to-use-closures-in-go/     
 + 闭包：闭包和匿名函数的区别？   
++ struct里面包含函数，具体的作用？       
 + **函数作为接口的实现者？**       
 
 # **功能选项设计演进**   
@@ -108,6 +109,7 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 
 # **接口**   
 + 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
+                      https://www.integralist.co.uk/posts/go-interfaces/          
 + **1、函数作为函数的参数和接口作为函数的参数有什么区别？**   
 + 问题描述：为解决减少重复代码，处理文件的方式都大同小异，需要按行读取每一行内容，然后按照一定格式解析每一行的内容，最后将解析后的数据存储到对应的数据对象中。原本的方式是每个业务代码拷贝相同的代理，然后修改处理具体逻辑，但是这样大部分代码都重复了，后来优化为通过函数指针和接口两种方式解决这个问题。
 	+ 1.1 函数作为函数参数：类似C/C++的函数指针，然后通过可变参数v...interface{}作为函数指针的参数，缺点是对象数据通过可变参数传递，具体解析函数需要.(type)方式猜测对象数据的格式，可读性和易用性较差。   
@@ -124,6 +126,7 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 + 问题描述：       
 + 解决方式：       
 + 参考sarama客户端NewConsumerGroupFromClient的实现       
++ 大牛分析： https://www.integralist.co.uk/posts/go-interfaces/              
 
 # **标准库**   
 ## bufio：    
@@ -152,13 +155,17 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
  + 方案二： proto.marshal --> Redis List -->  proto.Unmarshl --> jsonpb.Marshal --> Write File --> Read Line --> jsonpb.Unmarshal --> proto.marshal --> kafka。方案二的目的是保证数据文件每行都是可显字符的json串，因为如果数据文件是pb格式，那么文件解析pb不容易按行分隔解析，json串非常方便按行解析，json串也可以恢复回原来的kafka的pb数据，可以重新写回kafka中。   
  + 结论： jsonpb可以方便的将pb二进制数据转换为json字符串，不能直接用encode/json库将pb转成json串。    
  + pb协议解析：  https://medium.com/namely-labs/go-protocol-buffers-57b49e28bc4a     
+
+## 杂项   
++ 协程id的获取(仅适合调试时使用)： https://blog.sgmansfield.com/2015/12/goroutine-ids/    
++ go语言面向对象设计： https://dave.cheney.net/2016/08/20/solid-go-design      
  
 
 **参考**  
   go相关博客列表： https://github.com/golang/go/wiki/Blogs     
 《go编程语言》  ： https://book.douban.com/subject/26337545/   
 官方effective go  ： https://golang.org/doc/effective_go.html   
-go精华文章列表  ： https://github.com/golang/go/wiki/Articles    
+go精华文章列表  ： https://github.com/golang/go/wiki/Articles      
 go talk ：                 https://github.com/golang/go/wiki/GoTalks   
 github上的go资源：https://github.com/avelino/awesome-go   
 go编程规范 ：		 https://golang.org/ref/spec     

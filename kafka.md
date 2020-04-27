@@ -8,12 +8,13 @@ tags: kafka, kafka-client
 + 创建topic： sh kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 2 --partitions 5 --topic gy_proj_comment          
 + 查看consumer-group： sh kafka-consumer-groups.sh --bootstrap-server=xx.xx.xx.xx:9092 --describe --group task_gyb_consume_trans     
 + 查看消费者消息状态：./kafka-consumer-groups.sh --describe --group ecard_donate_trans_2_hbase --bootstrap-server xx.xx.xx.xx:9092     
++ 查看kafka版本号：kafka安装根目录： # find ./libs/ -name \*kafka_\* | head -1 | grep -o '\kafka[^\n]*'        
 
 **kafka偏移量offset**      
 + 自动定时提交？    
 + 手动批量提交？    
 + 同步提交/异步提交？    
-+ 影响生产者/消费者的效率： 生产者：同步vs异步，ack的等级，是否压缩等条件。   
++ 影响生产者/消费者的效率： 生产者：同步vs异步，ack的等级，是否压缩等条件。     
 
 **kafka的go客户端库对比**       
 + sarama：业余音乐家写的，比较飘逸，难用，但是所有协议命令配置都支持，最全的方式       
