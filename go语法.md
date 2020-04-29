@@ -122,11 +122,28 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 		![interface](png/go-interface1.png)      
 		+ 1.2.2 数据对象实现接口    
 		![interface](png/go-interface2.png)      
-+ **2、接口作为函数返回值**          
-+ 问题描述：       
-+ 解决方式：       
-+ 参考sarama客户端NewConsumerGroupFromClient的实现       
-+ 大牛分析： https://www.integralist.co.uk/posts/go-interfaces/              
++ **2、接口作为函数返回值（一般不建议?）**          
++ 参考sarama客户端NewConsumerGroupFromClient的实现（不合规范的做法？）       
++ 一般不建议接口作为函数返回值，那是java的做法class完全继承接口（显式接口），go的做法是struct包含接口（隐式接口），函数参数接受interface返回struct，如果直接返回接口，返回值的作用受限了，返回struct可以扩展其他interface的功能。      
++ 大牛分析： https://medium.com/@cep21/preemptive-interface-anti-pattern-in-go-54c18ac0668a     
+					  https://www.integralist.co.uk/posts/go-interfaces/        
++ **3、接口作为struct的变量**        
++ 大牛分析：        
++ **4、接口分离原则(Interface Segregation Principle)**      
++ 大牛分析：https://dave.cheney.net/2016/08/20/solid-go-design       
++ go里面的准则是参数接受interface，返回struct的方式(不是返回interface)。      
++ A great rule of thumb for Go is accept interfaces, return structs.       
+``` golang
+// 笨挫方式：Save writes the contents of doc to the file f.
+// 问题1：参数*os.File只允许写文件, 阻止将内容写入网络或者其他存储，操作受限。如果要扩展支持写网络，函数参数要改，所有调用的地方也要改。
+// 问题2：参数*os.File同样定义了很多和Save不相关的方法，像目录方法和其他方法。实际上该参数应该只和相关的操作绑定(写操作)。
+func Save(f *os.File, doc *Document) error
+
+// 优化方式(接口隔离)：Save writes the contents of doc to the supplied Writer.
+// 说明1：扩展应用，所有实现写接口的对象可以代替os.File
+// 说明2：w不需要和不相关的方法关联，只和写操作进行绑定。
+func Save(w io.Writer, doc *Document) error
+```
 
 # **标准库**   
 ## bufio：    
@@ -159,6 +176,8 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
 ## 杂项   
 + 协程id的获取(仅适合调试时使用)： https://blog.sgmansfield.com/2015/12/goroutine-ids/    
 + go语言面向对象设计： https://dave.cheney.net/2016/08/20/solid-go-design      
++ go推荐代码review： https://github.com/golang/go/wiki/CodeReviewComments#interfaces         
++ SOLID原则：https://dave.cheney.net/2016/08/20/solid-go-design       
  
 
 **参考**  
