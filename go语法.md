@@ -105,7 +105,56 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 3）配置参数可以动态添加    
 4）良好的文档组织    
 5）让调用者安全的使用   
-6）不需要nil或者空struct，避免使用者混淆用法    
+6）不需要nil或者空struct，避免使用者混淆用法      
+
+## **内嵌(embedd)**    
++ 大牛分析：https://golang.org/doc/effective_go.html#embedding        
+                     https://github.com/bingohuang/effective-go-zh-en/blob/master/13_Embedding.md           
+					 https://dave.cheney.net/2015/05/22/struct-composition-with-go         
++ 内嵌的理由：       
++ interface内嵌接口：内嵌接口让数据同时包含每个接口的功能，如果接口替换为列举所有方法，记忆不太方便。                    
++ struct内嵌接口：struct里面具有interface的功能。目的改变或者扩展接口的用法，通过数据赋值接口使数据扩展接口的用法。如果struct没有实现interface的接口，表示直接执行数据的接口行为，如果struct重新实现interface的接口，表示扩展或者改变数据的接口行为。                     
++ struct内嵌struct：除了类似C++继承的作用（使用内嵌struct的成员变量和方法）。 参考《go程序设计语言》P125内嵌说明。                    
+``` golang
+// interface内嵌接口：io package
+// ReadWriter is the interface that combines the Reader and Writer interfaces.
+// 目的：定义一个struct同时实现io.Reader和io.Writer的方法
+type ReadWriter interface {
+    Reader
+    Writer
+}
+// struct内嵌接口：
+// Reader implements buffering for an io.Reader object.
+// 目的：Reader重新实现了io.Reader，表示扩展改变rd数据的行为。
+type Reader struct {
+	buf          []byte
+	rd           io.Reader // reader provided by the client
+	r, w         int       // buf read and write positions
+	err          error
+	lastByte     int // last byte read for UnreadByte; -1 means invalid
+	lastRuneSize int // size of last rune read for UnreadRune; -1 means invalid
+}
+// struct内嵌struct：bufio package
+// ReadWriter stores pointers to a Reader and a Writer.
+// It implements io.ReadWriter.
+// 目的：使ReadWriter具有Reader和Writer的方法，以及具有io.Reader和io.Writer的方法
+type ReadWriter struct {
+    *Reader  // *bufio.Reader
+    *Writer  // *bufio.Writer
+}
+// struct内嵌struct：
+// 1) 目的：使Job具有Logger的方法
+type Job struct {
+    Command string
+    *log.Logger
+}
+job := &Job{command, log.New(os.Stderr, "Job: ", log.Ldate)}
+job.Println("starting now...")
+// 2) 目的：Job可以重新定义Logger的方法并进行覆盖
+func (job *Job) Printf(format string, args ...interface{}) {
+    job.Logger.Printf("%q: %s", job.Command, fmt.Sprintf(format, args...))
+}
+```
 
 # **接口**   
 + 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
@@ -128,7 +177,7 @@ func NewServer(addr string, options ...func(*Server)) (*Server, error) {
 + 大牛分析： https://medium.com/@cep21/preemptive-interface-anti-pattern-in-go-54c18ac0668a     
 					  https://www.integralist.co.uk/posts/go-interfaces/        
 + **3、接口作为struct的变量**        
-+ 大牛分析：        
++ 大牛分析：https://stackoverflow.com/questions/24537443/meaning-of-a-struct-with-embedded-anonymous-interface          
 + **4、接口分离原则(Interface Segregation Principle)**      
 + 大牛分析：https://dave.cheney.net/2016/08/20/solid-go-design       
 + go里面的准则是参数接受interface，返回struct的方式(不是返回interface)。      
