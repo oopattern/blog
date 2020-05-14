@@ -32,7 +32,12 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 2、如果没有case满足条件，那么某个case可能会永远阻塞下去，例如一个go协程的select中只有一个接收通道的case，但是该通道在其他协程没有发送赋值，导致go协程的select无法触发下一次接收操作，可能导致该go协程永远阻塞。   
 ![select](png/go-select.png)   
 
-# **CSP Design**   
+# **CSP Design**  
+
+# **SOLID原则**    
++ 单一责任原则（Single Responsibility Principle）：类似于UNIX设计哲学，通过管道拼装不同的功能，go的package类似于unix的工具程序。     
++ 开放/关闭原则（Open / Closed Principle）：      
++ 大牛分析：https://dave.cheney.net/2016/08/20/solid-go-design       
 
 # **函数**   
 + 大牛分析： https://medium.com/rungo/the-anatomy-of-functions-in-go-de56c050fe11         
@@ -159,6 +164,7 @@ func (job *Job) Printf(format string, args ...interface{}) {
 # **接口**   
 + 大牛分析： https://medium.com/rungo/interfaces-in-go-ab1601159b3a     
                       https://www.integralist.co.uk/posts/go-interfaces/          
+					  https://www.youtube.com/watch?v=F4wUrj6pmSI&t=2320s        
 + **1、函数作为函数的参数和接口作为函数的参数有什么区别？**   
 + 问题描述：为解决减少重复代码，处理文件的方式都大同小异，需要按行读取每一行内容，然后按照一定格式解析每一行的内容，最后将解析后的数据存储到对应的数据对象中。原本的方式是每个业务代码拷贝相同的代理，然后修改处理具体逻辑，但是这样大部分代码都重复了，后来优化为通过函数指针和接口两种方式解决这个问题。
 	+ 1.1 函数作为函数参数：类似C/C++的函数指针，然后通过可变参数v...interface{}作为函数指针的参数，缺点是对象数据通过可变参数传递，具体解析函数需要.(type)方式猜测对象数据的格式，可读性和易用性较差。   
@@ -225,8 +231,7 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
 ## 杂项   
 + 协程id的获取(仅适合调试时使用)： https://blog.sgmansfield.com/2015/12/goroutine-ids/    
 + go语言面向对象设计： https://dave.cheney.net/2016/08/20/solid-go-design      
-+ go推荐代码review： https://github.com/golang/go/wiki/CodeReviewComments#interfaces         
-+ SOLID原则：https://dave.cheney.net/2016/08/20/solid-go-design       
++ go推荐代码review： https://github.com/golang/go/wiki/CodeReviewComments#interfaces                
  
 
 **参考**  
@@ -237,5 +242,6 @@ go精华文章列表  ： https://github.com/golang/go/wiki/Articles
 go talk ：                 https://github.com/golang/go/wiki/GoTalks   
 github上的go资源：https://github.com/avelino/awesome-go   
 go编程规范 ：		 https://golang.org/ref/spec     
+gopher meeting：   https://www.youtube.com/playlist?list=PLx_Mc4dJcQbl4qPWbVu86u6owZeiwsErR        
 
 
