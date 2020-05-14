@@ -231,7 +231,19 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
 ## 杂项   
 + 协程id的获取(仅适合调试时使用)： https://blog.sgmansfield.com/2015/12/goroutine-ids/    
 + go语言面向对象设计： https://dave.cheney.net/2016/08/20/solid-go-design      
-+ go推荐代码review： https://github.com/golang/go/wiki/CodeReviewComments#interfaces                
++ go推荐代码review： https://github.com/golang/go/wiki/CodeReviewComments#interfaces           
+
+## defer     
++ defer执行的函数参数在初始化时已经确定了参数，不是在函数调用时才确定。      
++ defer按照LIFO的方式执行，如果一个函数有多个defer，最后defer的语句先执行。     
+
+## 初始化数据make和new的区别     
++ new不初始化对象变量，只是将对象设置为零值。new返回对象的指针，var直接返回对象本身。     
++ go允许直接返回局部变量的地址，函数返回，局部对象的生存周期还存在。  
++ new(File) 等同于 &File{}        
++ make仅用于创建slice、map、channel类型，和new不同，make会初始化对象T，make初始化不是设置为nil值。    
++ make会初始化，如slice底层为数据指针，长度和容量，如果不初始化数据指针为有效值，则访问slice会core。    
++ make(T, args)返回对象对象T，而不是返回对象*T，new(T)会返回对象*T，注意make和new返回值的不同。    
  
 
 **参考**  
