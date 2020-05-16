@@ -4,7 +4,7 @@ tags: docker
 ---
 
 ## **docker**   
-![docker](png/docker.png)       
+![docker](png/docker.bmp)       
 
 
 **参考**       
