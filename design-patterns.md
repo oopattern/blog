@@ -26,6 +26,12 @@ tags: design-patterns, 设计模式
 + 抽象工厂：使用抽象接口创建一组相关的产品。接口中的每个方法像工厂方法。      
 ![stargey](png/design-pattern-factory1.png)
 ![stargey](png/design-pattern-factory2.png)
++ 适配器模式：将接口转换成不同接口。      
++ 对象适配器：组合方式。     
++ 类适配器：多重继承。    
+![stargey](png/design-pattern-adapter.png)
++ 外观模式：目的是简化接口，提供一个统一接口，访问子系统一群接口，目的为了让子系统更容易使用。 
++ 装饰者模式：      
 
 ## **OO原则**     
 + 封装变化，变化的部分单独用类或者虚函数抽离，考虑Head First第一章鸭子行为的例子           
@@ -34,6 +40,7 @@ tags: design-patterns, 设计模式
 + 交互对象松耦合，考虑Head First第二章气象站观察者模式             
 + 开放-关闭原则，类应该对扩展开放，对修改关闭，考虑Head First第三章定制咖啡的例子      
 + 依赖倒置原则，要依赖抽象，不要依赖具体类       
++ 最少知识原则，避免太多类相互耦合，考虑外观模式的例子        
 
 ## **对比**     
 + 组合和继承：    
