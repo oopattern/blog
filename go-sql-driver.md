@@ -1,8 +1,6 @@
 ---
-title: 2019-12-23 go-sql-driver/mysql
+title: 2019-12-23 go-sql-driver
 tags: go,mysql
-renderNumberedHeading: true
-grammar_cjkRuby: true
 ---
 
 
