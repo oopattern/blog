@@ -94,7 +94,7 @@ tags: leetcode，算法，数据结构
 + T322 凑零钱问题：考虑如何列出状态转移方程。f(n) = min{f(n-coin)+1, coin in coins}          
 + T300 最长递增子序列问题：f(i) = max{f(i), 1 + f(j)} | nums[i] > nums[j], f(i)表示以i索引结尾的子序列    
 + T1143 最长公共子序列问题：                  
-+ 扔鸡蛋问题：        
++ T887 扔鸡蛋问题：dp[K][N] = min{1 + max(dp[K - 1][i - 1], dp[K][N - i])} | (1 <= i <= n), K为鸡蛋数，N为楼层数，dp[k][n] 表示用k个鸡蛋测n层最少需要多少步          
 + 爬楼梯问题：          
 
 ## **参考**      
@@ -107,4 +107,5 @@ tags: leetcode，算法，数据结构
 + 数据结构和算法：https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode 题解 - 目录.md     
 + 算法和数据结构书籍推荐：https://www.zhihu.com/question/21628833      
 + 高频题目整理：https://github.com/xizhengszhang/Leetcode_company_frequency         
++ 力扣解析：https://leetcode-cn.com/problems/super-egg-drop/solution/ji-dan-diao-luo-by-leetcode-solution-2/        
     

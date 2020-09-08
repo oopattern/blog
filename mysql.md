@@ -3,6 +3,10 @@ title: 2020-7-8 mysql
 tags: mysql
 ---
 
+## **DB调试命令**   
++ show processlist;         // 查看客户端连接db的情况
++ show variables like '%conn%';     // 查看目前连接数的配置        
+
 mysql乱码问题：
 https://www.cnblogs.com/chyingp/p/mysql-character-set-collation.html
 
