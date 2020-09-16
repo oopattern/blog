@@ -6,14 +6,22 @@ tags: awk
 ## awk     
 + 检查a文件的数字是否b文件也存在（aaa内容大于bbb内容）：     
 awk 'NR==FNR {a[$1] = $1; next} {if(!($1 in a)) print $1}' aaa bbb        
-awk 'FNR==NR {a[$2];next} {if (!($2 in a)) print}' lr_20200418.log wx_20200418.log      
+awk 'FNR==NR {a[$2];next} {if (!($2 in a)) print}' lr_20200418.log wx_20200418.log   
+awk -F'\"desc\":\"' '{print $2}' trans_redis.log |awk -F'",' '{print $1}'| awk -F'%2F' '{print $5}' | awk 'length($0)>10' > rds_all.txt      
+比较两个文件cf2 和cf1，cf1存在于cf2的记录放在in.txt   否则放在out.txt；     
+awk -F'\t' 'NR==FNR{a[$1]=$0} NR>FNR{if($1 in a){print a[$1]"\t"$0>>"in.txt"}else{print $0>>"out.txt"} }' cf2.txt cf1.txt      
+
     
 + awk数据统计：     
 + 捐款总额：awk -F'\t' '{if ($3 >= "2019-02-01 00:00:00" && $3 <= "2019-02-01 23:59:59") {sum = sum + $2}} END {print sum}' bless_export_20190218.txt         
 + 人次：awk -F'\t' '{if ($3 >= "2019-02-01 00:00:00" && $3 <= "2019-02-01 23:59:59") {sum = sum + 1}} END {print sum}' bless_export_20190218.txt            
 + 人数（去重）：awk -F'\t' '{if ($3 >= "2019-02-01 00:00:00" && $3 <= "2019-02-01 23:59:59") {a[$1]++}} END {print length(a)}' bless_export_20190218.txt            
 
-+ awk常用示例：              
++ awk常用示例：         
++ 截取匹配的文件内容：     
+    awk -F'%2F' '{if(NR==FNR) A[$1]=$1;else{if($5 in A) print$0}}' pic_pattern.txt trans_mysql.log >1.txt        
++ 截取两个/之间的内容$(NF-1)表示倒数第2列:       
+	cat -n 1 DARGON-IMG-SUCC-100.dat.all  | awk -F'/' '{print $(NF-1)}'         
 + 以空格为分隔符，输出第n个列的数据：           
     grep SendUserReviveSuccess * | grep uid | awk -F '|' '{print $9}'                 
 + awk统计netstat中TIME_WAIT的数量：                
