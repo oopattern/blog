@@ -10,8 +10,9 @@ export设置当前shell的环境变量，然后通过env查看该环境变量的
 ``` javascript
 # export MYSQL_TEST_DBNAME=test_db
 # env | grep test_db
-```
-2、某个用户有效：
-3、所有用户有效：
+```       
++ 打包指定类型文件： # tar -zcvf code.tar.gz $( find -name "*.cpp" -or -name "*.h" -or -name "*makefile*" -or -name "*makefile.def*" )            
++ 打包排除指定类型： # tar -zcvf cgi-bin.tar.gz * --exclude='*.sh'       
++ 定义shell变量： CODE_PATH='/data/xxx/code/weself'           
 
 
