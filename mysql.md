@@ -5,7 +5,27 @@ tags: mysql
 
 ## **DB调试命令**   
 + show processlist;         // 查看客户端连接db的情况
-+ show variables like '%conn%';     // 查看目前连接数的配置        
++ show variables like '%conn%';     // 查看目前连接数的配置      
+
+## **DB调试命令**       
++ # grep 'temporary password' /var/log/mysqld.log  
++ # mysqladmin -u root -p'qA,IRrTWC9kE' password ''       
++ > set global validate_password_policy=0;
++ > set global validate_password_mixed_case_count=0; 
++ > set global validate_password_number_count=0;   
++ > set global validate_password_special_char_count=0;
++ > set global validate_password_length=0;
++ > SET PASSWORD FOR 'root'@'localhost' = PASSWORD('');
+
+## **常用DB命令**      
+按分组统计字段次数： select f_dragon_id,count(1) from t_gy_dragon_transcode_2020 group by f_dragon_id  order by count(1) desc  limit 10\G              
+
+扩字段：
+alter table `t_gy_dragon_transcode` add f_pendimgs varchar(1024) DEFAULT '' after f_headimg;
+alter table `t_gy_dragon_transcode` add f_imgstatus varchar(32) DEFAULT '' after f_headimg;
+
+添加索引：      
+
 
 mysql乱码问题：
 https://www.cnblogs.com/chyingp/p/mysql-character-set-collation.html
@@ -54,6 +74,7 @@ select f_donate_id, count(1) as cnt from t_wx_transcode_attr where f_donate_time
 1.10）mysql> select * from student where name='user100'; // 查询数据
 1.11）mysql> select * from ingot_useringot9; // 查询数据
 1.12）mysql> select * from ingot_useringot9 where ingot=1; // 查询数据
+1.12）mysql> alter table `t_gy_dragon_transcode` add f_imgstatus varchar(1024) DEFAULT '' after f_headimg;  // 新增字段
 1.13）mysql> select COUNT(*) from ingot_useringot9 where ingot=1; // 查询数据
 1.14）mysql> insert into qymatch_card set content='hhh', ctime=123, active=0; // 插入数据
 1.15）mysql> delete from qymatch_card where ctime=%d and cnum=%d limit 1 // 删除数据

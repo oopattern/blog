@@ -48,7 +48,7 @@ https://stackoverflow.com/questions/24868859/different-ways-to-pass-channels-as-
 
 # **功能选项设计演进**   
 类似C++多个构造函数的实现，go采用更通用的方法，设计灵活的配置参数实现多个构造函数（Functional options）。   
-+ **大牛分析** ：https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis     
++ **大牛分析** :  https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis     
 								 https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html   
 								 https://blog.csdn.net/liyunlong41/article/details/89048382    
 + 问题1： 如果将所有参数列在函数参数中，所有参数变成必填，无法达到可选参数默认值的需求。   
@@ -212,6 +212,10 @@ func Save(w io.Writer, doc *Document) error
 + bufio作用：一般配合archive/zip、compress/*、encoding/*、net/http等标准库使用，用于提高数据传输性能。   
 + 大牛分析：https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762      
 
+## context:
++ 用于协程间同步信号，取消操作。     
++ server接收每个请求会启动多个协程，同一个context可以协调不同协程的信号同步，如果父协程退出，所有子协程通过select+channel的方式，可以让协程友好的清理资源然后退出。        
+
 ## sync：   
 + 大牛分析：https://medium.com/@teivah/a-closer-look-at-go-sync-package-9f4e4a28c35a          
 
@@ -246,8 +250,11 @@ struct和json的关系，组装json时，包括允许struct字段为空或者跳
 + make(T, args)返回对象对象T，而不是返回对象*T，new(T)会返回对象*T，注意make和new返回值的不同。    
  
 
-**参考**  
-  go相关博客列表： https://github.com/golang/go/wiki/Blogs     
+**参考**     
+go视频教程： 
+go中文参考书籍： https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/         
+go优秀中文博客： https://www.qcrao.com/page/3/                
+go相关博客列表： https://github.com/golang/go/wiki/Blogs     
 《go编程语言》  ： https://book.douban.com/subject/26337545/   
 官方effective go  ： https://golang.org/doc/effective_go.html   
 go精华文章列表  ： https://github.com/golang/go/wiki/Articles      
@@ -255,5 +262,7 @@ go talk ：                 https://github.com/golang/go/wiki/GoTalks
 github上的go资源：https://github.com/avelino/awesome-go   
 go编程规范 ：		 https://golang.org/ref/spec     
 gopher meeting：   https://www.youtube.com/playlist?list=PLx_Mc4dJcQbl4qPWbVu86u6owZeiwsErR        
+go interface      ：   https://www.integralist.co.uk/posts/go-interfaces/      
+grpc 				  ：  https://github.com/grpc-ecosystem/awesome-grpc           
 
 

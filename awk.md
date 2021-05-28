@@ -4,7 +4,9 @@ tags: awk
 ---
 
 ## awk     
-+ 检查a文件的数字是否b文件也存在（aaa内容大于bbb内容）：     
++ 检查a文件的数字是否b文件也存在（aaa内容大于bbb内容）：    
+awk -F'' 'NR==FNR{a[$1]=$0}   NR>FNR{if($1 in a) {print $0 >>"in.txt"} else {print $0>"out.txt"}}'  $F1 $F2
+
 awk 'NR==FNR {a[$1] = $1; next} {if(!($1 in a)) print $1}' aaa bbb        
 awk 'FNR==NR {a[$2];next} {if (!($2 in a)) print}' lr_20200418.log wx_20200418.log   
 awk -F'\"desc\":\"' '{print $2}' trans_redis.log |awk -F'",' '{print $1}'| awk -F'%2F' '{print $5}' | awk 'length($0)>10' > rds_all.txt      
